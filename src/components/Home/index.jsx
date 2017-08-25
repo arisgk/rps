@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
 import Game from './Game';
+import Progress from './Progress';
 
 const styles = {
   container: {
@@ -12,23 +14,46 @@ const styles = {
   appBarContainer: {
     flex: 'initial',
   },
-  appBar: {
-    textAlign: 'center',
+  account: {
+    margin: 0,
+    display: 'flex',
+    WebkitAlignItems: 'center',
+    alignItems: 'center',
+    WebkitJustifyContent: 'center',
+    justifyContent: 'center',
+    color: '#ffffff',
   },
 };
 
-const Home = () => (
+const Home = ({ web3Ready, account }) => (
   <main style={styles.container}>
     <div>
       <AppBar
         title="RPS"
         showMenuIconButton={false}
-        style={styles.appBar}
+        iconElementRight={<div>
+          Account: {account}
+        </div>}
+        iconStyleRight={styles.account}
       />
     </div>
+    {
+      web3Ready
+        ? <Game />
+        : <Progress />
+    }
 
-    <Game />
   </main>
 );
+
+Home.propTypes = {
+  web3Ready: PropTypes.bool,
+  account: PropTypes.string,
+};
+
+Home.defaultProps = {
+  web3Ready: false,
+  account: '',
+};
 
 export default Home;
