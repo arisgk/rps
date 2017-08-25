@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import { getWeb3 } from '../../../actions/shared';
-import Home from '../../../components/Home';
+import Game from '../../../components/Home/Game';
+import { getAccount } from '../../../selectors/shared';
 
 const mapStateToProps = state => ({
   web3Ready: state.home.ui.web3Ready,
+  account: getAccount(state),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -12,9 +14,9 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-const HomeContainer = connect(
+const GameContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Home);
+)(Game);
 
-export default HomeContainer;
+export default GameContainer;
