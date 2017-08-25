@@ -1,0 +1,2 @@
+export const GET_WEB3_PROGRESS = 'GET_WEB3_PROGRESS';
+export const GET_WEB3_SUCCESS = 'GET_WEB3_SUCCESS';

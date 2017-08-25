@@ -2,14 +2,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { ConnectedRouter } from 'react-router-redux';
 import Routes from '../../components/Routes';
+import './styles/index.css';
 
 const Root = ({ store, history }) => (
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Routes />
-    </ConnectedRouter>
+    <MuiThemeProvider>
+      <ConnectedRouter history={history}>
+        <Routes />
+      </ConnectedRouter>
+    </MuiThemeProvider>
   </Provider>
 );
 
