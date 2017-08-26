@@ -42,7 +42,6 @@
     "redux-logger": "^3.0.6",
     "strip-ansi": "3.0.1",
     "style-loader": "0.13.1",
-    "truffle-contract": "^1.1.8",
     "truffle-solidity-loader": "0.0.8",
     "url-loader": "0.5.7",
     "webpack": "1.14.0",
@@ -51,6 +50,8 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
+    "bignumber.js": "^4.0.2",
+    "crypto": "^1.0.1",
     "dotenv": "^2.0.0",
     "history": "^4.7.2",
     "material-ui": "^0.19.0",
@@ -64,6 +65,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
+    "truffle-contract": "^1.1.8",
     "validator": "^8.1.0"
   },
   "scripts": {

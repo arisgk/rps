@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
-import Game from './Game';
+import GameContainer from '../../containers/Home/GameContainer';
 import Progress from './Progress';
 
 const styles = {
@@ -39,7 +39,7 @@ const Home = ({ web3Ready, account }) => (
     </div>
     {
       web3Ready
-        ? <Game />
+        ? <GameContainer />
         : <Progress />
     }
 

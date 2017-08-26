@@ -34,6 +34,8 @@ class EmptyView extends Component {
 
     this.state = {
       opponent: '',
+      stake: '',
+      move: '',
     };
 
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
@@ -88,6 +90,8 @@ class EmptyView extends Component {
 
     onCreate({
       opponent: this.state.opponent,
+      stake: this.state.stake,
+      move: this.state.move,
     });
   }
 
@@ -145,6 +149,7 @@ class EmptyView extends Component {
             primary
             disabled={!this.state.opponent || !this.state.move
               || (!validator.isNumeric(this.state.stake))}
+            onClick={this.handleCreate}
           />
         </div>
       </div>
@@ -152,5 +157,12 @@ class EmptyView extends Component {
   }
 }
 
+EmptyView.propTypes = {
+  onCreate: PropTypes.func,
+};
+
+EmptyView.defaultProps = {
+  onCreate: () => {},
+};
 
 export default EmptyView;

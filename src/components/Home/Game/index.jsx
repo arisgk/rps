@@ -1,5 +1,5 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
 import EmptyView from './EmptyView';
 
 const styles = {
@@ -14,10 +14,18 @@ const styles = {
   },
 };
 
-const Game = ({ onCreate }) => (
+const Game = ({ game, onCreate }) => (
   <div style={styles.container}>
     <EmptyView onCreate={onCreate} />
   </div>
 );
+
+Game.propTypes = {
+  onCreate: PropTypes.func,
+};
+
+Game.defaultProps = {
+  onCreate: () => {},
+};
 
 export default Game;
