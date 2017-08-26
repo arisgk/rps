@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import validator from 'validator';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
@@ -139,7 +140,12 @@ class EmptyView extends Component {
         </SelectField>
 
         <div style={styles.buttonContainer}>
-          <RaisedButton label="Create Game" primary />
+          <RaisedButton
+            label="Create Game"
+            primary
+            disabled={!this.state.opponent || !this.state.move
+              || (!validator.isNumeric(this.state.stake))}
+          />
         </div>
       </div>
     );

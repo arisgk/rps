@@ -63,7 +63,8 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "validator": "^8.1.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
