@@ -6,7 +6,7 @@ import WaitingGame from './WaitingGame';
 import * as schemas from '../../../../../schemas/react';
 
 const GameContent = ({ game, account, onClaimWin, onPlay }) => {
-  if (game && !game.move) {
+  if (game && !game.player1Move) {
     return <YourTurnGame game={game} account={account} onPlay={onPlay} />;
   }
 

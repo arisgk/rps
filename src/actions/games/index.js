@@ -37,7 +37,7 @@ export const createGame = game => (dispatch) => {
         RPS.setProvider(web3.currentProvider);
         const stake = Number(game.stake);
 
-        return RPS.new([web3.toBigNumber(hash), game.opponent], {
+        return RPS.new(web3.toBigNumber(hash), game.opponent, {
           from: web3.eth.accounts[0],
           value: web3.toBigNumber(stake * (10 ** 18)),
         });
@@ -52,7 +52,7 @@ export const createGame = game => (dispatch) => {
         committedGame.player1 = web3.eth.accounts[0];
         committedGame.player2 = game.opponent;
         committedGame.player1Move = game.move;
-        committedGame.stake = game.stake;
+        committedGame.stake = Number(game.stake);
         committedGame.lastAction = lastActionDate;
 
         dispatch(createGameSuccess(committedGame));
@@ -116,7 +116,7 @@ export const getGame = address => (dispatch) => {
       .then(([player1, player2, stake, lastAction]) => {
         committedGame.player1 = player1;
         committedGame.player2 = player2;
-        committedGame.stake = stake.toString();
+        committedGame.stake = Number(web3.fromWei(stake.toString(), 'ether'));
         committedGame.lastAction = new Date(Number(lastAction.toString()) * 1000);
         committedGame.address = address;
 
@@ -142,11 +142,18 @@ export const play = data => (dispatch) => {
     const RPS = contract(RPSContract);
     RPS.setProvider(web3.currentProvider);
 
+    let rps;
+
     return RPS.at(address)
-      .then(rps => rps.play(moves.indexOf(move)))
-      .then(rps => rps.c2.call())
-      .then((c2) => {
-        console.log(c2);
+      .then((instance) => {
+        rps = instance;
+        return rps.stake.call();
+      })
+      .then(st => rps.play(moves.indexOf(move), {
+        from: web3.eth.accounts[0],
+        value: st,
+      }))
+      .then(() => {
         dispatch(playSuccess(move));
       });
   });
