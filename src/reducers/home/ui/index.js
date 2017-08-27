@@ -1,11 +1,26 @@
-import * as actions from '../../../actions/shared/types';
+import * as sharedActions from '../../../actions/shared/types';
+import * as gameActions from '../../../actions/games/types';
 
-export default function reducer(state = { web3Ready: false }, action = {}) {
+const initialState = {
+  web3Ready: false,
+  creating: false,
+  loading: false,
+};
+
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    case actions.GET_WEB3_PROGRESS:
+    case sharedActions.GET_WEB3_PROGRESS:
       return { ...state, web3Ready: false };
-    case actions.GET_WEB3_SUCCESS:
+    case sharedActions.GET_WEB3_SUCCESS:
       return { ...state, web3Ready: true };
+    case gameActions.CREATE_GAME_PROGRESS:
+      return { ...state, creating: true };
+    case gameActions.CREATE_GAME_SUCCESS:
+      return { ...state, creating: false };
+    case gameActions.GAME_PROGRESS:
+      return { ...state, loading: true };
+    case gameActions.GAME_RESULT:
+      return { ...state, loading: false };
     default:
       return state;
   }

@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const styles = {
   container: {
@@ -13,10 +14,19 @@ const styles = {
     WebkitJustifyContent: 'center',
     justifyContent: 'center',
   },
+  titleContainer: {
+    display: 'flex',
+    WebkitAlignItems: 'center',
+    alignItems: 'center',
+    WebkitJustifyContent: 'center',
+    justifyContent: 'center',
+  },
   h2: {
-    textAlign: 'center',
     color: 'rgba(0,0,0,0.65)',
     fontSize: '110%',
+  },
+  progress: {
+    marginLeft: 12,
   },
   buttonContainer: {
     height: 72,
@@ -96,9 +106,18 @@ class EmptyView extends Component {
   }
 
   render() {
+    const { creating } = this.props;
+
     return (
       <div style={styles.container}>
-        <h2 style={styles.h2}>New Game</h2>
+        <div style={styles.titleContainer}>
+          <h2 style={styles.h2}>New Game</h2>
+          {
+            creating
+              ? <CircularProgress size={25} thickness={2} style={styles.progress} />
+              : null
+          }
+        </div>
 
         <TextField
           floatingLabelText="Opponent"
@@ -159,10 +178,12 @@ class EmptyView extends Component {
 
 EmptyView.propTypes = {
   onCreate: PropTypes.func,
+  creating: PropTypes.bool,
 };
 
 EmptyView.defaultProps = {
   onCreate: () => {},
+  creating: false,
 };
 
 export default EmptyView;
