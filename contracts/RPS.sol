@@ -48,22 +48,28 @@ contract RPS{
      *  @param _c1 The move played by j1.
      *  @param _salt The salt used when submitting the commitment when the constructor was called.
      */
-    function solve(Move _c1, uint256 _salt) {
+    function solve(Move _c1, uint256 _salt) returns (address) {
         require(c2!=Move.Null); // J2 must have played.
         require(msg.sender==j1); // J1 can call this.
         require(keccak256(_c1,_salt)==c1Hash); // Verify the value is the commited one.
 
         // If j1 or j2 throws at fallback it won't get funds and that is his fault.
         // Despite what the warnings say, we should not use transfer as a throwing fallback would be able to block the contract, in case of tie.
-        if (win(_c1,c2))
-            j1.send(2*stake);
-        else if (win(c2,_c1))
-            j2.send(2*stake);
-        else {
-            j1.send(stake);
-            j2.send(stake);
+        if (win(_c1,c2)) {
+          j1.send(2*stake);
+          stake=0;
+          return j1;
+        } else if (win(c2,_c1)) {
+          j2.send(2*stake);
+          stake=0;
+          return j2;
+        } else {
+          j1.send(stake);
+          j2.send(stake);
+          stake=0;
+          return 0;
         }
-        stake=0;
+
     }
 
     /** @dev Let j2 get the funds back if j1 did not play.

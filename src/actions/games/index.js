@@ -15,6 +15,11 @@ const createGameSuccess = game => ({
   game,
 });
 
+const gameResult = winner => ({
+  type: types.GAME_RESULT,
+  winner,
+});
+
 const getBalance = address => new Promise((resolve, reject) => {
   getWeb3.then((results) => {
     const web3 = results.web3;
@@ -41,10 +46,11 @@ const startPollingForWin = (dispatch, address, move, salt) => {
 
     return RPS.at(address)
       .then(rps => rps.solve.call(move, salt))
-      .then(() => {
+      .then((winner) => {
+        dispatch(gameResult(winner));
         clearInterval(polling);
       });
-  }, 5000);
+  }, 15000);
 };
 
 export const createGame = game => (dispatch) => {
@@ -97,11 +103,6 @@ export const createGame = game => (dispatch) => {
 
 const gameProgress = () => ({
   type: types.GAME_PROGRESS,
-});
-
-const gameResult = winner => ({
-  type: types.GAME_RESULT,
-  winner,
 });
 
 export const claimWin = address => (dispatch) => {
