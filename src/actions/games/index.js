@@ -125,9 +125,10 @@ export const getGame = address => (dispatch) => {
   });
 };
 
-export const playSuccess = move => ({
+export const playSuccess = ({ player2Move, lastAction }) => ({
   type: types.PLAY_SUCCESS,
-  move,
+  player2Move,
+  lastAction,
 });
 
 export const play = data => (dispatch) => {
@@ -153,8 +154,12 @@ export const play = data => (dispatch) => {
         from: web3.eth.accounts[0],
         value: st,
       }))
-      .then(() => {
-        dispatch(playSuccess(move));
+      .then(() => rps.lastAction.call())
+      .then((lastAction) => {
+        dispatch(playSuccess({
+          player2Move: move,
+          lastAction: new Date(Number(lastAction.toString()) * 1000),
+        }));
       });
   });
 };
