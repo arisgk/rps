@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import EmptyView from './EmptyView';
 import Game from './Game';
+import Progress from '../Progress';
 import * as schemas from '../../../schemas/react';
 
 const styles = {
@@ -16,15 +17,41 @@ const styles = {
   },
 };
 
-const GameWrapper = ({ loading, creating, game, account, onCreate, onClaimWin }) => (
-  <div style={styles.container}>
-    {
-      (game && game.address)
-        ? <Game game={game} account={account} loading={loading} onClaimWin={onClaimWin} />
-        : <EmptyView creating={creating} onCreate={onCreate} />
+class GameWrapper extends Component {
+  componentDidMount() {
+    const { address, onFetch, fetching } = this.props;
+
+    if (address && !fetching) {
+      onFetch(address);
     }
-  </div>
-);
+  }
+
+  render() {
+    const { account, game, creating, onCreate, loading, onClaimWin, address } = this.props;
+
+    if (game && game.address) {
+      return (
+        <div style={styles.container}>
+          <Game game={game} account={account} loading={loading} onClaimWin={onClaimWin} />
+        </div>
+      );
+    }
+
+    if (address) {
+      return (
+        <div style={styles.container}>
+          <Progress />
+        </div>
+      );
+    }
+
+    return (
+      <div style={styles.container}>
+        <EmptyView creating={creating} onCreate={onCreate} />
+      </div>
+    );
+  }
+}
 
 GameWrapper.propTypes = {
   creating: PropTypes.bool,
@@ -33,6 +60,7 @@ GameWrapper.propTypes = {
   account: PropTypes.string,
   onCreate: PropTypes.func,
   onClaimWin: PropTypes.func,
+  fetching: PropTypes.bool,
 };
 
 GameWrapper.defaultProps = {
@@ -42,6 +70,7 @@ GameWrapper.defaultProps = {
   game: {},
   account: '',
   onClaimWin: () => {},
+  fetching: false,
 };
 
 export default GameWrapper;

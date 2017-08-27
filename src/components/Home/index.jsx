@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
-import GameWrapperContainer from '../../containers/Home/GameWrapperContainer';
 import Progress from './Progress';
+import GameRoutes from '../Routes/Games';
 
 const styles = {
   container: {
@@ -27,9 +27,9 @@ const styles = {
 
 class Home extends Component {
   componentDidMount() {
-    const { gameAddress, fetchingGame, loadGame } = this.props;
+    const { location, history, gameAddress, fetchingGame, loadGame } = this.props;
 
-    if (gameAddress && !fetchingGame) loadGame(gameAddress);
+    if (location.pathname === '/') return history.push('/games/new');
   }
 
   render() {
@@ -48,8 +48,8 @@ class Home extends Component {
           />
         </div>
         {
-          (web3Ready && (!gameAddress || (gameAddress && !fetchingGame)))
-            ? <GameWrapperContainer />
+          web3Ready
+            ? <GameRoutes />
             : <Progress />
         }
       </main>

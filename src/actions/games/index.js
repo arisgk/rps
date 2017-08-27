@@ -106,6 +106,8 @@ export const getGame = address => (dispatch) => {
     const RPS = contract(RPSContract);
     RPS.setProvider(web3.currentProvider);
 
+    console.log(address);
+
     RPS.at(address)
       .then(rps => Promise.all([
         rps.j1.call(),
@@ -116,7 +118,7 @@ export const getGame = address => (dispatch) => {
       .then(([player1, player2, stake, lastAction]) => {
         committedGame.player1 = player1;
         committedGame.player2 = player2;
-        committedGame.stake = stake;
+        committedGame.stake = stake.toString();
         committedGame.lastAction = new Date(Number(lastAction.toString()) * 1000);
         committedGame.address = address;
 

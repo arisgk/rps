@@ -4,8 +4,7 @@ import HomeContainer from '../../containers/Home/HomeContainer';
 
 const Routes = () => (
   <div>
-    <Route exact path="/:gameAddress" component={HomeContainer} />
-    <Route exact path="/" component={HomeContainer} />
+    <Route path="/" component={HomeContainer} />
   </div>
 );
 

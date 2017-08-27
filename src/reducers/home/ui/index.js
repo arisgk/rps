@@ -3,7 +3,7 @@ import * as gameActions from '../../../actions/games/types';
 
 const initialState = {
   web3Ready: false,
-  fetchingGame: false,
+  fetching: false,
   creating: false,
   loading: false,
 };
@@ -23,9 +23,9 @@ export default function reducer(state = initialState, action = {}) {
     case gameActions.GAME_RESULT:
       return { ...state, loading: false };
     case gameActions.GET_GAME_PROGRESS:
-      return { ...state, fetchingGame: true };
+      return { ...state, fetching: true };
     case gameActions.GET_GAME_SUCCESS:
-      return { ...state, fetchingGame: false };
+      return { ...state, fetching: false };
     default:
       return state;
   }
