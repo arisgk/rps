@@ -13,7 +13,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   onCreate: entity => dispatch(createGame(entity)),
-  onClaimWin: address => dispatch(claimWin(address)),
+  onClaimWin: game => dispatch(claimWin(game)),
   onFetch: address => dispatch(getGame(address)),
   onPlay: data => dispatch(play(data)),
 });

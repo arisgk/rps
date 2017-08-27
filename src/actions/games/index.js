@@ -105,7 +105,7 @@ const gameProgress = () => ({
   type: types.GAME_PROGRESS,
 });
 
-export const claimWin = address => (dispatch) => {
+export const claimWin = game => (dispatch) => {
   dispatch(gameProgress());
 
   getWeb3.then((results) => {
@@ -114,8 +114,16 @@ export const claimWin = address => (dispatch) => {
     const RPS = contract(RPSContract);
     RPS.setProvider(web3.currentProvider);
 
-    return RPS.at(address)
-      .then(rps => rps.j2Timeout())
+    const account = web3.eth.accounts[0];
+
+    return RPS.at(game.address)
+      .then((rps) => {
+        if (account === game.player1) {
+          return rps.j2Timeout();
+        }
+
+        return rps.j1Timeout();
+      })
       .then(() => {
         dispatch(gameResult(web3.eth.accounts[0]));
       });

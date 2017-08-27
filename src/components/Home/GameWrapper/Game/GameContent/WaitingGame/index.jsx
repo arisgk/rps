@@ -18,7 +18,7 @@ const WaitingGame = ({ game, account, onClaimWin }) => (
     <GameListItem title="Opponent" value={getOpponent(game, account)} />
     <GameListItem title="Stake" value={game.stake} />
     <GameListItem title="Your Move" value={getMove(game, account)} />
-    <Timer lastAction={game.lastAction} gameAddress={game.address} onClaimWin={onClaimWin} />
+    <Timer lastAction={game.lastAction} game={game} onClaimWin={onClaimWin} />
   </ul>
 );
 

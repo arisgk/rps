@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import { calculateTimeRemaining } from '../../../../../../utils/time';
+import * as schemas from '../../../../../../schemas/react';
 
 const styles = {
   container: {
@@ -47,9 +48,9 @@ class Timer extends Component {
   }
 
   handleClaimWin() {
-    const { onClaimWin, gameAddress } = this.props;
+    const { onClaimWin, game } = this.props;
 
-    onClaimWin(gameAddress);
+    onClaimWin(game);
   }
 
   render() {
@@ -88,13 +89,13 @@ class Timer extends Component {
 
 Timer.propTypes = {
   lastAction: PropTypes.instanceOf(Date),
-  gameAddress: PropTypes.string,
+  game: schemas.game,
   onClaimWin: PropTypes.func,
 };
 
 Timer.defaultProps = {
   lastAction: new Date(),
-  gameAddress: '',
+  game: schemas.game,
   onClaimWin: () => {},
 };
 
