@@ -17,7 +17,7 @@ const styles = {
   },
 };
 
-const Game = ({ loading, game, account, onClaimWin }) => (
+const Game = ({ loading, game, account, onClaimWin, onPlay }) => (
   <div style={styles.container}>
     <div style={styles.titleContainer}>
       <h2 style={styles.h2}>Game: {game.address}</h2>
@@ -27,7 +27,7 @@ const Game = ({ loading, game, account, onClaimWin }) => (
           : null
       }
     </div>
-    <GameContent game={game} account={account} onClaimWin={onClaimWin} />
+    <GameContent game={game} account={account} onClaimWin={onClaimWin} onPlay={onPlay} />
   </div>
 );
 
@@ -36,6 +36,7 @@ Game.propTypes = {
   game: schemas.game,
   account: PropTypes.string,
   onClaimWin: PropTypes.func,
+  onPlay: PropTypes.func,
 };
 
 Game.defaultProps = {
@@ -43,6 +44,7 @@ Game.defaultProps = {
   game: {},
   account: '',
   onClaimWin: () => {},
+  onPlay: () => {},
 };
 
 export default Game;

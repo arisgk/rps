@@ -9,6 +9,8 @@ export default function reducer(state = initialState, action = {}) {
     case actions.CREATE_GAME_SUCCESS:
     case actions.GET_GAME_SUCCESS:
       return { ...state, game: action.game };
+    case actions.PLAY_SUCCESS:
+      return { ...state, game: { ...state.game, move: action.move } };
     case actions.GAME_RESULT:
       return { ...state, game: { ...state.game, winner: action.winner } };
     default:

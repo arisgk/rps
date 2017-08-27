@@ -48,10 +48,11 @@ class YourTurnGame extends Component {
   }
 
   handlePlay() {
-    const { onPlay } = this.props;
+    const { onPlay, game } = this.props;
 
     onPlay({
       move: this.state.move,
+      address: game.address,
     });
   }
 

@@ -27,12 +27,18 @@ class GameWrapper extends Component {
   }
 
   render() {
-    const { account, game, creating, onCreate, loading, onClaimWin, address } = this.props;
+    const { account, game, creating, onCreate, loading, onClaimWin, address, onPlay } = this.props;
 
     if (game && game.address) {
       return (
         <div style={styles.container}>
-          <Game game={game} account={account} loading={loading} onClaimWin={onClaimWin} />
+          <Game
+            game={game}
+            account={account}
+            loading={loading}
+            onClaimWin={onClaimWin}
+            onPlay={onPlay}
+          />
         </div>
       );
     }
@@ -60,7 +66,10 @@ GameWrapper.propTypes = {
   account: PropTypes.string,
   onCreate: PropTypes.func,
   onClaimWin: PropTypes.func,
+  address: PropTypes.string,
+  onFetch: PropTypes.func,
   fetching: PropTypes.bool,
+  onPlay: PropTypes.func,
 };
 
 GameWrapper.defaultProps = {
@@ -70,7 +79,10 @@ GameWrapper.defaultProps = {
   game: {},
   account: '',
   onClaimWin: () => {},
+  address: '',
+  onFetch: () => {},
   fetching: false,
+  onPlay: () => {},
 };
 
 export default GameWrapper;

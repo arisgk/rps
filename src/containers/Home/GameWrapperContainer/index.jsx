@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { createGame, claimWin, getGame } from '../../../actions/games';
+import { createGame, claimWin, getGame, play } from '../../../actions/games';
 import GameWrapper from '../../../components/Home/GameWrapper';
 import { getAccount } from '../../../selectors/shared';
 
@@ -15,6 +15,7 @@ const mapDispatchToProps = dispatch => ({
   onCreate: entity => dispatch(createGame(entity)),
   onClaimWin: address => dispatch(claimWin(address)),
   onFetch: address => dispatch(getGame(address)),
+  onPlay: data => dispatch(play(data)),
 });
 
 const GameWrapperContainer = connect(

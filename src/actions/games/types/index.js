@@ -4,3 +4,4 @@ export const GAME_PROGRESS = 'GAME_PROGRESS';
 export const GAME_RESULT = 'GAME_RESULT';
 export const GET_GAME_PROGRESS = 'GET_GAME_PROGRESS';
 export const GET_GAME_SUCCESS = 'GET_GAME_SUCCESS';
+export const PLAY_SUCCESS = 'PLAY_SUCCESS';

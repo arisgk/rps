@@ -5,9 +5,9 @@ import EndedGame from './EndedGame';
 import WaitingGame from './WaitingGame';
 import * as schemas from '../../../../../schemas/react';
 
-const GameContent = ({ game, account, onClaimWin }) => {
+const GameContent = ({ game, account, onClaimWin, onPlay }) => {
   if (game && !game.move) {
-    return <YourTurnGame game={game} account={account} />;
+    return <YourTurnGame game={game} account={account} onPlay={onPlay} />;
   }
 
   if (game && game.winner) {
@@ -21,12 +21,14 @@ GameContent.propTypes = {
   game: schemas.game,
   account: PropTypes.string,
   onClaimWin: PropTypes.func,
+  onPlay: PropTypes.func,
 };
 
 GameContent.defaultProps = {
   game: {},
   account: '',
   onClaimWin: () => {},
+  onPlay: () => {},
 };
 
 export default GameContent;

@@ -124,3 +124,30 @@ export const getGame = address => (dispatch) => {
       });
   });
 };
+
+export const playSuccess = move => ({
+  type: types.PLAY_SUCCESS,
+  move,
+});
+
+export const play = data => (dispatch) => {
+  dispatch(gameProgress());
+
+  const address = data.address;
+  const move = data.move;
+
+  getWeb3.then((results) => {
+    const web3 = results.web3;
+
+    const RPS = contract(RPSContract);
+    RPS.setProvider(web3.currentProvider);
+
+    return RPS.at(address)
+      .then(rps => rps.play(moves.indexOf(move)))
+      .then(rps => rps.c2.call())
+      .then((c2) => {
+        console.log(c2);
+        dispatch(playSuccess(move));
+      });
+  });
+};

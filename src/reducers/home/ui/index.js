@@ -20,6 +20,7 @@ export default function reducer(state = initialState, action = {}) {
       return { ...state, creating: false };
     case gameActions.GAME_PROGRESS:
       return { ...state, loading: true };
+    case gameActions.PLAY_SUCCESS:
     case gameActions.GAME_RESULT:
       return { ...state, loading: false };
     case gameActions.GET_GAME_PROGRESS:
