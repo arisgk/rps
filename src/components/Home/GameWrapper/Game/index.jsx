@@ -24,12 +24,12 @@ const styles = {
 };
 
 const getOpponent = (game, account) => {
-  if (game.player1 && game.player1 === account) {
-    return game.player1;
+  if (game.player1 && game.player2 && game.player1 === account) {
+    return game.player2;
   }
 
-  if (game.player2 && game.player2 === account) {
-    return game.player2;
+  if (game.player1 && game.player2 && game.player2 === account) {
+    return game.player1;
   }
 
   return null;
@@ -61,7 +61,7 @@ const Game = ({ loading, game, account, onClaimWin }) => (
       (game && game.winner)
         ? <ul style={styles.list}>
           <GameListItem title="Opponent" value={getOpponent(game, account)} />
-          <GameListItem title="Result" value={'You won the game. You earned ${game.stake} ether!'} />
+          <GameListItem title="Result" value={`You won the game. You earned ${game.stake} ether!`} />
         </ul>
         : <ul style={styles.list}>
           <GameListItem title="Opponent" value={getOpponent(game, account)} />

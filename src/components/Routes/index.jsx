@@ -3,7 +3,10 @@ import { Route } from 'react-router';
 import HomeContainer from '../../containers/Home/HomeContainer';
 
 const Routes = () => (
-  <Route exact path="/" component={HomeContainer} />
+  <div>
+    <Route exact path="/:gameAddress" component={HomeContainer} />
+    <Route exact path="/" component={HomeContainer} />
+  </div>
 );
 
 export default Routes;

@@ -43,7 +43,6 @@ export const createGame = game => (dispatch) => {
         });
       })
       .then((rps) => {
-        console.log(rps);
         committedGame.address = rps.address;
         return rps.lastAction.call();
       })
@@ -79,10 +78,49 @@ export const claimWin = address => (dispatch) => {
     const RPS = contract(RPSContract);
     RPS.setProvider(web3.currentProvider);
 
-    RPS.at(address)
+    return RPS.at(address)
       .then(rps => rps.j2Timeout())
       .then(() => {
         dispatch(gameResult(web3.eth.accounts[0]));
+      });
+  });
+};
+
+const getGameProgress = () => ({
+  type: types.GET_GAME_PROGRESS,
+});
+
+const getGameSuccess = game => ({
+  type: types.GET_GAME_SUCCESS,
+  game,
+});
+
+export const getGame = address => (dispatch) => {
+  dispatch(getGameProgress());
+
+  const committedGame = {};
+
+  getWeb3.then((results) => {
+    const web3 = results.web3;
+
+    const RPS = contract(RPSContract);
+    RPS.setProvider(web3.currentProvider);
+
+    RPS.at(address)
+      .then(rps => Promise.all([
+        rps.j1.call(),
+        rps.j2.call(),
+        rps.stake.call(),
+        rps.lastAction.call(),
+      ]))
+      .then(([player1, player2, stake, lastAction]) => {
+        committedGame.player1 = player1;
+        committedGame.player2 = player2;
+        committedGame.stake = stake;
+        committedGame.lastAction = new Date(Number(lastAction.toString()) * 1000);
+        committedGame.address = address;
+
+        dispatch(getGameSuccess(committedGame));
       });
   });
 };
