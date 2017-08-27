@@ -15,6 +15,38 @@ const createGameSuccess = game => ({
   game,
 });
 
+const getBalance = address => new Promise((resolve, reject) => {
+  getWeb3.then((results) => {
+    const web3 = results.web3;
+    web3.eth.getBalance(address, (error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+});
+
+const startPollingForWin = (dispatch, address, move, salt) => {
+  let web3;
+
+  getWeb3.then((results) => {
+    web3 = results.web3;
+  });
+
+  const polling = setInterval(() => {
+    const RPS = contract(RPSContract);
+    RPS.setProvider(web3.currentProvider);
+
+    return RPS.at(address)
+      .then(rps => rps.solve.call(move, salt))
+      .then(() => {
+        clearInterval(polling);
+      });
+  }, 5000);
+};
+
 export const createGame = game => (dispatch) => {
   dispatch(createGameProgress());
 
@@ -30,6 +62,7 @@ export const createGame = game => (dispatch) => {
       .then((hasher) => {
         const saltHex = crypto.randomBytes(32).toString('hex');
         const salt = web3.toBigNumber(`0x${saltHex}`);
+        committedGame.salt = salt;
         return hasher.hash(moves.indexOf(game.move), salt);
       })
       .then((hash) => {
@@ -56,6 +89,8 @@ export const createGame = game => (dispatch) => {
         committedGame.lastAction = lastActionDate;
 
         dispatch(createGameSuccess(committedGame));
+        startPollingForWin(dispatch, committedGame.address,
+          moves.indexOf(game.move), committedGame.salt);
       });
   });
 };
