@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
-import { calculateTimeRemaining } from '../../../../../utils/time';
+import { calculateTimeRemaining } from '../../../../../../utils/time';
 
 const styles = {
   container: {

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CircularProgress from 'material-ui/CircularProgress';
-import GameListItem from './GameListItem';
-import Timer from './Timer';
+import GameContent from './GameContent';
 import * as schemas from '../../../../schemas/react';
 
 const styles = {
@@ -16,35 +15,6 @@ const styles = {
     color: 'rgba(0,0,0,0.65)',
     fontSize: '110%',
   },
-  list: {
-    listStyle: 'none',
-    padding: 0,
-    margin: 0,
-  },
-};
-
-const getOpponent = (game, account) => {
-  if (game.player1 && game.player2 && game.player1 === account) {
-    return game.player2;
-  }
-
-  if (game.player1 && game.player2 && game.player2 === account) {
-    return game.player1;
-  }
-
-  return null;
-};
-
-const getMove = (game, account) => {
-  if (game.player1 && game.player1 === account) {
-    return game.player1Move;
-  }
-
-  if (game.player2 && game.player2 === account) {
-    return game.player2Move;
-  }
-
-  return null;
 };
 
 const Game = ({ loading, game, account, onClaimWin }) => (
@@ -57,19 +27,7 @@ const Game = ({ loading, game, account, onClaimWin }) => (
           : null
       }
     </div>
-    {
-      (game && game.winner)
-        ? <ul style={styles.list}>
-          <GameListItem title="Opponent" value={getOpponent(game, account)} />
-          <GameListItem title="Result" value={`You won the game. You earned ${game.stake} ether!`} />
-        </ul>
-        : <ul style={styles.list}>
-          <GameListItem title="Opponent" value={getOpponent(game, account)} />
-          <GameListItem title="Stake" value={game.stake} />
-          <GameListItem title="Your Move" value={getMove(game, account)} />
-          <Timer lastAction={game.lastAction} gameAddress={game.address} onClaimWin={onClaimWin} />
-        </ul>
-    }
+    <GameContent game={game} account={account} onClaimWin={onClaimWin} />
   </div>
 );
 

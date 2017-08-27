@@ -106,8 +106,6 @@ export const getGame = address => (dispatch) => {
     const RPS = contract(RPSContract);
     RPS.setProvider(web3.currentProvider);
 
-    console.log(address);
-
     RPS.at(address)
       .then(rps => Promise.all([
         rps.j1.call(),
