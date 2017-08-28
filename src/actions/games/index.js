@@ -33,7 +33,7 @@ const getBalance = address => new Promise((resolve, reject) => {
   });
 });
 
-const startPollingForWin = (dispatch, address, move, salt) => {
+const startPollingForWin = (dispatch, address, player1, move, salt) => {
   let web3;
 
   getWeb3.then((results) => {
@@ -41,16 +41,20 @@ const startPollingForWin = (dispatch, address, move, salt) => {
   });
 
   const polling = setInterval(() => {
-    const RPS = contract(RPSContract);
-    RPS.setProvider(web3.currentProvider);
+    if (web3.eth.accounts[0] === player1) {
+      const RPS = contract(RPSContract);
+      RPS.setProvider(web3.currentProvider);
 
-    return RPS.at(address)
-      .then(rps => rps.solve.call(move, salt))
-      .then((winner) => {
-        dispatch(gameResult(winner));
-        clearInterval(polling);
-      });
-  }, 15000);
+      return RPS.at(address)
+        .then(rps => rps.solve.call(move, salt))
+        .then((winner) => {
+          dispatch(gameResult(winner));
+          clearInterval(polling);
+        });
+    }
+
+    return null;
+  }, 5000);
 };
 
 export const createGame = game => (dispatch) => {
@@ -95,7 +99,7 @@ export const createGame = game => (dispatch) => {
         committedGame.lastAction = lastActionDate;
 
         dispatch(createGameSuccess(committedGame));
-        startPollingForWin(dispatch, committedGame.address,
+        startPollingForWin(dispatch, committedGame.address, committedGame.player1,
           moves.indexOf(game.move), committedGame.salt);
       });
   });
