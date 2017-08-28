@@ -14,7 +14,7 @@ const styles = {
 
 const EndedGame = ({ game, account }) => {
   const opponent = getOpponent(game, account);
-  if (game.winner === account) {
+  if (account && (game.winner === account.toLowerCase())) {
     return (
       <ul style={styles.list}>
         <GameListItem title="Opponent" value={opponent} />
@@ -23,7 +23,7 @@ const EndedGame = ({ game, account }) => {
     );
   }
 
-  if (game.winner === opponent) {
+  if (opponent && (game.winner === opponent.toLowerCase())) {
     return (
       <ul style={styles.list}>
         <GameListItem title="Opponent" value={opponent} />

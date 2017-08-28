@@ -33,7 +33,7 @@ const getBalance = address => new Promise((resolve, reject) => {
   });
 });
 
-const startPollingForWin = (dispatch, address, player1, move, salt) => {
+const startPollingForWin = (dispatch, address, player1, player2, move, salt) => {
   let web3;
 
   getWeb3.then((results) => {
@@ -48,8 +48,12 @@ const startPollingForWin = (dispatch, address, player1, move, salt) => {
       return RPS.at(address)
         .then(rps => rps.solve.call(move, salt))
         .then((winner) => {
-          dispatch(gameResult(winner));
-          clearInterval(polling);
+          if ((winner === player1.toLowerCase())
+          || (winner === player2.toLowerCase())
+          || (winner == '0x0000000000000000000000000000000000000000')) {
+            dispatch(gameResult(winner));
+            clearInterval(polling);
+          }
         });
     }
 
@@ -93,14 +97,14 @@ export const createGame = game => (dispatch) => {
         const lastActionDate = new Date(Number(lastAction.toString()) * 1000);
 
         committedGame.player1 = web3.eth.accounts[0];
-        committedGame.player2 = game.opponent;
+        committedGame.player2 = game.opponent.toLowerCase();
         committedGame.player1Move = game.move;
         committedGame.stake = Number(game.stake);
         committedGame.lastAction = lastActionDate;
 
         dispatch(createGameSuccess(committedGame));
         startPollingForWin(dispatch, committedGame.address, committedGame.player1,
-          moves.indexOf(game.move), committedGame.salt);
+          committedGame.player2, moves.indexOf(game.move), committedGame.salt);
       });
   });
 };
